@@ -2,7 +2,7 @@ package com.sales.gateway.infrastructure.client;
 
 import com.sales.gateway.application.dto.integration.CreateContractRequestDTO;
 import com.sales.gateway.application.dto.integration.CreateContractResponseDTO;
-import com.sales.gateway.domain.exception.DomainException;
+import com.sales.gateway.domain.exception.ExternalApiException;
 import com.sales.gateway.domain.port.client.ContractClientPort;
 import java.nio.charset.StandardCharsets;
 import org.springframework.http.MediaType;
@@ -33,19 +33,20 @@ public class ContractClientAdapter implements ContractClientPort {
                     .exchange(
                             (req, response) -> {
                                 if (response.getStatusCode().isError()) {
-                                    throw new DomainException(
+                                    throw new ExternalApiException(
                                             "Contract API responded with status %s: %s"
                                                     .formatted(
                                                             response.getStatusCode().value(),
                                                             new String(
                                                                     response.getBody()
                                                                             .readAllBytes(),
-                                                                    StandardCharsets.UTF_8)));
+                                                                    StandardCharsets.UTF_8)),
+                                            response.getStatusCode().value());
                                 }
                                 return response.bodyTo(CreateContractResponseDTO.class);
                             });
         } catch (ResourceAccessException e) {
-            throw new DomainException("Contract API is unreachable", e);
+            throw new ExternalApiException("Contract API is unreachable", null, e);
         }
     }
 }
