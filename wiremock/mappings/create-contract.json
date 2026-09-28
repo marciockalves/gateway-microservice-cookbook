@@ -1,0 +1,40 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/contracts",
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "contractId": "770e8400-e29b-41d4-a716-446655440000",
+          "customerId": {
+            "accountId": "550e8400-e29b-41d4-a716-446655440000",
+            "document": "1233445656",
+            "fullName": "nome completo",
+            "email": "email@mail.com"
+          },
+          "contractModel": "PREPAID",
+          "endDate": "2026-12-31",
+          "items": [
+            {
+              "productId": "PROD-8801",
+              "productName": "Plano Internet 500 Mega",
+              "quantity": 1,
+              "unitPrice": 120.00
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "contractId": "770e8400-e29b-41d4-a716-446655440000",
+      "externalStatus": "CREATED",
+      "processedAt": "2026-09-28T12:00:00"
+    }
+  }
+}
